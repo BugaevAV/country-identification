@@ -5,7 +5,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import ru.javabegin.micro.demo.countryidentification.model.ISDCode;
 
 import java.io.IOException;
@@ -18,7 +17,7 @@ import java.util.List;
 public class ISDCodeParser implements Parser {
 
     @Override
-    public List<ISDCode> parse(String url, String tableName) throws IOException {
+    public List<ISDCode> parse(String url, String tableName) {
         List<ISDCode> isdCodes = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(url).get();
@@ -56,8 +55,8 @@ public class ISDCodeParser implements Parser {
             if (spaceIndex != -1) {
                 countryCode = code.substring(0, spaceIndex);
                 areaCodes = Arrays.asList(code.substring(spaceIndex + 1)
-                        .replaceAll("[^\\d,]", "")
-                        .split(","));
+                        .replaceAll("[^\\d ]", "")
+                        .split(" "));
             }
 
             ISDCode isdCode = new ISDCode(countryName, countryCode, areaCodes);
@@ -65,7 +64,6 @@ public class ISDCodeParser implements Parser {
         }
     }
 
-    @Transactional
     private Element getElement(Element targetHeader) {
         Element nextElement = targetHeader.parent().nextElementSibling();
         while (nextElement != null && !nextElement.tagName().equals("table")) {

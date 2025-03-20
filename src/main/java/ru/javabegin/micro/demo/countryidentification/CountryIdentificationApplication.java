@@ -9,5 +9,4 @@ public class CountryIdentificationApplication {
     public static void main(String[] args) {
         SpringApplication.run(CountryIdentificationApplication.class, args);
     }
-
 }

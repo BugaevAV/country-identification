@@ -1,6 +1,8 @@
 package ru.javabegin.micro.demo.countryidentification.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class ISDCode {
     @ElementCollection
     @CollectionTable(name = "area_codes", joinColumns = @JoinColumn(name = "isd_code_id"))
     @Column(name = "area_code")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> areaCodes = new ArrayList<>();
 
     public ISDCode(String countryName, String countryCode, List<String> areaCodes) {

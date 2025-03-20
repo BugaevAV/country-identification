@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поиск страны по номеру телефона</title>
+  <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+<div class="container">
+  <h1>Поиск страны по номеру телефона</h1>
+  <input type="text" id="phoneNumber" placeholder="Введите номер телефона">
+  <button onclick="searchCountry()">Поиск</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+    async function searchCountry() {
+        const phoneNumber = document.getElementById('phoneNumber').value;
+        const resultDiv = document.getElementById('result');
+
+        if (!phoneNumber) {
+            resultDiv.textContent = 'Пожалуйста, введите номер телефона.';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/v1/phone/${encodeURIComponent(phoneNumber)}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error);
+            }
+
+            if (data.country) {
+                resultDiv.textContent = `${data.country}`;
+            } else {
+                resultDiv.textContent = 'Страна не найдена.';
+            }
+        } catch (error) {
+            resultDiv.textContent = 'Ошибка при запросе к серверу.';
+        }
+    }
+</script>
+</body>
+</html>
