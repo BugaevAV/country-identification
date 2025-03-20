@@ -16,6 +16,12 @@ body {
     text-align: center;
 }
 
+#phoneNumber {
+    font-size: 18px; /* Размер шрифта */
+    padding: 10px; /* Внутренние отступы */
+    width: 300px; /* Ширина поля ввода */
+}
+
 input[type="text"] {
     padding: 10px;
     width: 200px;
@@ -25,6 +31,7 @@ input[type="text"] {
 }
 
 button {
+    font-size: 18px;
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -39,6 +46,6 @@ button:hover {
 
 .result {
     margin-top: 20px;
-    font-size: 18px;
-    color: #333;
+    font-size: 22px;
+    color: midnightblue;
 }

@@ -9,7 +9,7 @@
 <body>
 <div class="container">
   <h1>Поиск страны по номеру телефона</h1>
-  <input type="text" id="phoneNumber" placeholder="Введите номер телефона">
+  <input type="text" id="phoneNumber" placeholder="Введите номер телефона" onkeydown="handleKeyDown(event)">
   <button onclick="searchCountry()">Поиск</button>
   <div class="result" id="result"></div>
 </div>
@@ -39,6 +39,11 @@
             }
         } catch (error) {
             resultDiv.textContent = 'Ошибка при запросе к серверу.';
+        }
+    }
+    function handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            searchCountry();
         }
     }
 </script>
