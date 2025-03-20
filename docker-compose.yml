@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:14.8-alpine3.18
+    container_name: country_codes_container
+    environment:
+      POSTGRES_DB: "country_codes"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    networks:
+      - postgres-network
+
+  pgweb:
+    image: sosedoff/pgweb:latest
+    container_name: visualize_country_codes_container
+    ports:
+      - "8081:8081"
+    environment:
+      PGWEB_DATABASE_URL: "postgres://postgres:postgres@postgres:5432/country_codes?sslmode=disable"
+    depends_on:
+      - postgres
+    networks:
+      - postgres-network
+networks:
+  postgres-network:
+    driver: bridge
