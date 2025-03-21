@@ -16,4 +16,5 @@ docker-compose up -d
 4. Открыть [поиск стран по номеру телефона](http://localhost:8088/)  
 
 
-5. Запустить тесты `./gradlew test`
+5. Запустить тесты `./gradlew test openJacocoReport` и  
+    перейти в браузер для получения отчета

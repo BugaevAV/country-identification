@@ -1,12 +1,57 @@
+import org.gradle.process.ExecOperations
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'application'
+    id 'jacoco'
 }
 
 application {
     mainClass = 'ru.javabegin.micro.demo.countryidentification.CountryIdentificationApplication'
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+    }
+}
+
+tasks.register('openJacocoReport') {
+    dependsOn 'jacocoTestReport'
+    doLast {
+        def reportPath = layout.buildDirectory.file('reports/jacoco/test/html/index.html').get().asFile
+        def os = System.getProperty('os.name').toLowerCase()
+
+        def execOperations = services.get(ExecOperations)
+
+        if (os.contains('windows')) {
+            execOperations.exec {
+                commandLine 'cmd', '/c', 'start', reportPath
+            }
+        } else if (os.contains('mac')) {
+            execOperations.exec {
+                commandLine 'open', reportPath
+            }
+        } else if (os.contains('linux')) {
+            execOperations.exec {
+                commandLine 'xdg-open', reportPath
+            }
+        } else {
+            logger.warn("Unsupported OS: ${os}")
+        }
+    }
 }
 
 group = 'ru.javabegin.micro.demo'

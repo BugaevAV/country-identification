@@ -43,7 +43,7 @@ public class ISDCodeParser implements Parser {
         return isdCodes;
     }
 
-    private void parseRow(Elements columns, List<ISDCode> isdCodes) {
+    void parseRow(Elements columns, List<ISDCode> isdCodes) {
         if (columns.size() >= 2) {
             String countryName = columns.get(0).text();
             String code = columns.get(1).text();
@@ -64,7 +64,7 @@ public class ISDCodeParser implements Parser {
         }
     }
 
-    private Element getElement(Element targetHeader) {
+    Element getElement(Element targetHeader) {
         Element nextElement = targetHeader.parent().nextElementSibling();
         while (nextElement != null && !nextElement.tagName().equals("table")) {
             nextElement = nextElement.nextElementSibling();
